@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<title>User List</title>
+		<!-- href="/static/assets/style.css"-->
+		<link rel="stylesheet" href="{{ url_for('static',filename='assets/css/bootstrap.css')}}">
+		<link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='assets/style.css')}}" >
+		<link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='assets/emoji.css')}}" >
+		<script src="{{ url_for('static',filename='assets/twemoji.min.js')}}"></script>  
+		<script src="{{ url_for('static',filename='assets/emoji.js')}}"></script>
+		<script src="{{ url_for('static',filename='assets/js/jquery.js')}}"></script>
+		<script src="{{ url_for('static',filename='assets/js/bootstrap.min.js')}}"></script>
+		
+
+	</head>
+<body>
+	<div class="container-fluid p-4">
+		<div class="header">
+			<h4>User List</h4>
+		</div>
+		<div class="accordion mt-5 mb-5" id="accordionExample">
+			{% for item in datas %}
+			<div class="card">
+				<div class="card-header" id="headingOne">
+				<h2 class="mb-0">
+					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#data{{item['_id']}}" aria-expanded="true" aria-controls="data{{item['_id']}}">
+					<p class="text-muted">{{item["_id"]}}</p>
+					</button>
+				</h2>
+				</div>
+
+				<div id="data{{item['_id']}}" class="collapse" aria-labelledby="headingOne">
+				<div class="card-body">
+					{% for key,value in item.items() %}
+					<div>
+						<span class="text-muted">{{key}}</span>
+						<span class="ml-2">{{value}}</span>
+					</div>
+					{% endfor %}
+				</div>
+				<a class="nav nav-link" href="./remove?_id={{ item['_id'] }}"><button class="btn btn-danger" type="submit">DELETE</button></a>
+				<a class="nav nav-link" href="./update?_id={{ item['_id'] }}"><button class="btn btn-info" type="submit">EDIT</button></a>
+
+				</div>
+			</div> 
+			{% endfor %}
+		</div>
+		<div class="card mb-5">
+			<div class="p-2 text-center">
+				<h4>Add New User</h4>
+			</div>
+			<form action="/action" method="POST" class="card-header">
+				<div id="form">
+					<div class="form-group">
+					<label for="name">Name</label>
+					<input type="text" class="form-control" name="name" id="name" placeholder="name">
+				</div>
+				<div class="form-group">
+					<label for="phone">Phone no</label>
+					<input type="text" class="form-control" name="phone" id="phone" placeholder="phone">
+				</div>
+				<div class="form-group">
+					<label for="email">Email address</label>
+					<input type="email" class="form-control" name="email" id="email" placeholder="email">
+				</div>
+				<div class="form-group">
+					<label for="designation">Enter designation</label>
+					<input type="text" class="form-control" name="designation" id="designation" placeholder="designation">
+				</div>
+				</div>
+				<div class="d-flex">
+					
+				<button type="reset" class="btn btn-outline-secondary p-2 mr-2 ">Reset</button>
+				<button type="submit" class="btn btn-outline-primary p-2">Submit</button>
+				<button class="ml-3 btn btn-success" onclick="create()">Create new</button>
+			</div>
+	</form>
+		</div>
+	</div>
+	<script>
+function create(){
+    var field=prompt('Enter Field Name');
+    var form=document.getElementById('form');
+    var formgroup=document.createElement('div');
+	formgroup.setAttribute('class','form-group');
+
+    var label=document.createElement('label');
+	label.setAttribute('for',field);
+    label.textContent=`Enter ${field}`;
+    formgroup.appendChild(label);
+    var input=document.createElement('input');
+    input.setAttribute('type','text');
+    input.setAttribute('name',field);
+	 input.setAttribute('id',field);
+	input.setAttribute('class','form-control');
+    formgroup.appendChild(input);
+    form.appendChild(formgroup);
+}
+
+	</script>
+</body>
+</html>

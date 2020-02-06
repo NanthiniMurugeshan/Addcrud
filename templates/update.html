@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<title>Update user</title>
+		<link rel="stylesheet" href="{{ url_for('static',filename='assets/css/bootstrap.css')}}">
+		<script src="{{ url_for('static',filename='assets/js/jquery.js')}}"></script>
+		<script src="{{ url_for('static',filename='assets/js/bootstrap.min.js')}}"></script>
+	</head>
+	<style>	
+		h1{
+			font-family:"Arial Black", Gadget, sans-serif;
+		}
+		body{
+			background-color:white;
+		}
+		label::first-letter{
+			text-transform: uppercase;
+		}
+	</style>
+<body>
+	<div class="container-fluid p-5">
+	
+	<div class="card">
+		<h3 class="text-center">Update user {{datas[0]['name']}}</h3>
+	<form action="/updatedata" method="POST" class="card-header">
+		<div id="form">
+			{% for task in datas %}
+				{% for key,value in task.items() %}
+				{% if key == '_id' %}
+					<div class="form-group" hidden>
+									<label for="{{key}}">{{key}}</label>
+									<input type="text" class="form-control" name="{{key}}" id="{{key}}" placeholder="Enter {{key}}" value="{{value}}" >
+								</div>
+					{% endif %}
+					{% if key != '_id' %}
+					<div class="form-group">
+									<label for="{{key}}">{{key}}</label>
+									<input type="text" class="form-control" name="{{key}}" id="{{key}}" placeholder="Enter {{key}}" value="{{value}}" >
+								</div>
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		</div>
+		<div class="d-flex">
+				
+			<button type="reset" class="btn btn-outline-secondary p-2 mr-2 ">Reset</button>
+			<button type="submit" class="btn btn-outline-primary p-2">Save</button>
+			<button class="ml-3 btn btn-success" onclick="create()">Create new</button>
+		</div>
+		<br/>
+	</form>
+	</div>
+	<a href="/" class="bg-primary text-white p-2 mt-5 nav nav-link text-center">Back to user list</a>
+	</div>
+	<script>
+	function create(){
+    var field=prompt('Enter Field Name');
+    var form=document.getElementById('form');
+    var formgroup=document.createElement('div');
+	formgroup.setAttribute('class','form-group');
+
+    var label=document.createElement('label');
+	label.setAttribute('for',field);
+    label.textContent=`Enter ${field}`;
+    formgroup.appendChild(label);
+    var input=document.createElement('input');
+    input.setAttribute('type','text');
+    input.setAttribute('name',field);
+	 input.setAttribute('id',field);
+	input.setAttribute('class','form-control');
+    formgroup.appendChild(input);
+    form.appendChild(formgroup);
+}
+
+	
+	</script>
+</body>
+</html>
